@@ -1,17 +1,10 @@
 import { tool as createTool } from "ai";
 import { z } from "zod";
-import products from "@/data/data.json";
+import { searchProducts } from "@/search";
+import type { Product } from "@/search/types";
 
-// Product type definition
-export type Product = {
-  name: string;
-  categories: string[];
-  brand: string;
-  priceEuro: string;
-  color: string;
-  image: string;
-  description: string;
-};
+// Re-export Product type for backward compatibility
+export type { Product };
 
 export const productSearchTool = createTool({
   description:
@@ -27,29 +20,7 @@ export const productSearchTool = createTool({
       .optional()
       .describe("Maximum number of products to return (default: 5)"),
   }),
-  execute: async function ({ query, limit = 5 }) {
-    // Simple search function - you can enhance this with more sophisticated search logic
-    const searchResults = products
-      .filter((product) => {
-        const searchText = query.toLowerCase();
-        return (
-          product.name.toLowerCase().includes(searchText) ||
-          product.brand.toLowerCase().includes(searchText) ||
-          product.categories.some((cat) =>
-            cat.toLowerCase().includes(searchText)
-          ) ||
-          product.description.toLowerCase().includes(searchText) ||
-          product.color.toLowerCase().includes(searchText)
-        );
-      })
-      .slice(0, limit);
-
-    return {
-      query,
-      products: searchResults,
-      totalFound: searchResults.length,
-    };
-  },
+  execute: searchProducts,
 });
 
 export const showCartTool = createTool({
