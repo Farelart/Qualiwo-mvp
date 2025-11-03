@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "ng.jumia.is",
       },
+      {
+      protocol: "https",
+      hostname: "m.media-amazon.com",
+    },
     ],
   },
 };

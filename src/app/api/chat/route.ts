@@ -65,11 +65,9 @@ You: [call showCart] "Parfait ! Voici votre panier. Pour finaliser votre command
 
 PAYMENT INFO PROVIDED:
 User: "Mon prénom est Jean et mon numéro est 06123456789"
-You: "Merci Jean ! Votre commande est en cours de traitement. Payment completed successfully. Do you want to make another purchase?"
-
-PAYMENT COMPLETION:
-User: "Payment completed successfully"
 You: "Félicitations pour votre achat ! 🎉 Votre commande a été confirmée. Puis-je vous aider avec autre chose aujourd'hui ?"
+
+"
             `,
     messages: convertToModelMessages(messages),
     stopWhen: stepCountIs(2),
