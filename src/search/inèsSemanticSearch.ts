@@ -60,7 +60,7 @@ const transformApiProduct = (apiProduct: ApiProductResponse): Product => {
  * Matches the SearchFunction interface from types.ts
  */
 export const semanticSearch: SearchFunction = async ({ query, limit = 5 }) => {
-  const API_URL = "http://34.155.41.241:8080/search";
+  const API_URL = "http://34.155.84.157:8080/search";
 
   try {
     // Prepare request body
