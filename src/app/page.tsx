@@ -10,7 +10,7 @@ import { CartSummary } from "@/components/cart-summary";
 import { Streamdown } from "streamdown";
 import { useCartStore } from "@/store/cart-store-simple";
 import { useToast } from "@/components/ui/toast";
-import type { SearchItem } from "@/search/types";
+import type { Product } from "@/search/types";
 
 export default function Page() {
   const [input, setInput] = useState("");
@@ -333,7 +333,7 @@ export default function Page() {
                     {/* Render recommended item card */}
                     {recommendedItem && (
                       <div key="recommended-item" className="my-4 flex justify-center">
-                        <ProductCardNew product={recommendedItem as any} />
+                        <ProductCardNew product={recommendedItem as Product} />
                       </div>
                     )}
 

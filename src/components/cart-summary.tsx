@@ -5,13 +5,11 @@ import Image from "next/image";
 import { Plus, Minus, Trash2, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
-import { useToast } from "@/components/ui/toast";
 
 export const CartSummary = () => {
   const { items, totalPrice, incrementItem, decrementItem, removeItem, clearCart } =
     useCartStore();
   const { sendMessage } = useChat();
-  const { addToast } = useToast();
 
   const [showPaymentPrompt, setShowPaymentPrompt] = useState(false);
 
