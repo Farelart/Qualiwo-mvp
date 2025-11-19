@@ -2,14 +2,15 @@
 
 import { useChat } from "@ai-sdk/react";
 import { useState, useEffect, useRef } from "react";
-import { ArrowUp } from "lucide-react";
-import { ProductList } from "@/components/product-list";
-import type { ProductListProps } from "@/components/product-list";
-import { ProductCard } from "@/components/product-card";
+import { ArrowUp, Smartphone, Laptop, Gamepad2, Shirt, Home, Sparkles, Dumbbell, BookOpen, Backpack, UtensilsCrossed, Hotel, ShoppingBag } from "lucide-react";
+import { ItemList } from "@/components/item-list";
+import type { ItemListProps } from "@/components/item-list";
+import { ProductCardNew } from "@/components/product-card-new";
 import { CartSummary } from "@/components/cart-summary";
 import { Streamdown } from "streamdown";
 import { useCartStore } from "@/store/cart-store-simple";
 import { useToast } from "@/components/ui/toast";
+import type { SearchItem } from "@/search/types";
 
 export default function Page() {
   const [input, setInput] = useState("");
@@ -110,53 +111,101 @@ export default function Page() {
           >
             <div className="text-center max-w-2xl px-4">
               <h1 className="text-4xl font-bold text-white mb-4">
-                Welcome to Qualiwo🔥
+                Welcome to Qualiwo
               </h1>
               <p className="text-gray-300 text-lg mb-6">
-                Start shopping by asking for products!
+                Discover products, foods, and accommodations!
               </p>
 
-              {/* Product Categories */}
-              <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6 mt-6">
-                <h2 className="text-xl font-semibold text-[#d97757] mb-4">
-                  Here are the products you can buy:
-                </h2>
-                <div className="grid grid-cols-2 gap-3 text-left">
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">📱</span>
-                    <span>Phones</span>
+              {/* Categories Grid */}
+              <div className="space-y-6">
+                {/* Products Section */}
+                <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6">
+                  <h2 className="text-xl font-semibold text-[#d97757] mb-4 flex items-center justify-center gap-2">
+                    <ShoppingBag className="w-5 h-5" />
+                    Products
+                  </h2>
+                  <div className="grid grid-cols-2 gap-3 text-left">
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Smartphone className="w-5 h-5 text-[#d97757]" />
+                      <span>Phones</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Laptop className="w-5 h-5 text-[#d97757]" />
+                      <span>Laptops</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Gamepad2 className="w-5 h-5 text-[#d97757]" />
+                      <span>Gaming</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Shirt className="w-5 h-5 text-[#d97757]" />
+                      <span>Fashion & Apparel</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Home className="w-5 h-5 text-[#d97757]" />
+                      <span>Home & Office</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Sparkles className="w-5 h-5 text-[#d97757]" />
+                      <span>Health & Beauty</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Dumbbell className="w-5 h-5 text-[#d97757]" />
+                      <span>Sports & Outdoor</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <BookOpen className="w-5 h-5 text-[#d97757]" />
+                      <span>Toys & Books</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <Backpack className="w-5 h-5 text-[#d97757]" />
+                      <span>Bags & Travel</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">💻</span>
-                    <span>Laptops</span>
+                </div>
+
+                {/* Foods Section */}
+                <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6">
+                  <h2 className="text-xl font-semibold text-[#d97757] mb-4 flex items-center justify-center gap-2">
+                    <UtensilsCrossed className="w-5 h-5" />
+                    Foods
+                  </h2>
+                  <div className="grid grid-cols-2 gap-3 text-left">
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">African Cuisine</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">Fast Food</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">Local Dishes</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">Beverages</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">🎮</span>
-                    <span>Gaming</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">👕</span>
-                    <span>Fashion & Apparel</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">🏠</span>
-                    <span>Home & Office</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">💄</span>
-                    <span>Health & Beauty</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">⚽</span>
-                    <span>Sports & Outdoor</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">🧸</span>
-                    <span>Toys & Books</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-200">
-                    <span className="text-2xl">🎒</span>
-                    <span>Bags & Travel</span>
+                </div>
+
+                {/* Accommodations Section */}
+                <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6">
+                  <h2 className="text-xl font-semibold text-[#d97757] mb-4 flex items-center justify-center gap-2">
+                    <Hotel className="w-5 h-5" />
+                    Accommodations
+                  </h2>
+                  <div className="grid grid-cols-2 gap-3 text-left">
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">Hotels</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">Apartments</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">Private Rooms</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-200">
+                      <span className="text-sm">Beach Stays</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -206,42 +255,42 @@ export default function Page() {
                   }
                 }
 
-                // Get product list parts
-                const productParts = message.parts.filter(
+                // Get search results parts
+                const searchParts = message.parts.filter(
                   (part) => part.type === "tool-searchProducts"
                 );
 
-                // Get the recommended product
-                const productOutput = productParts.find(
+                // Get the recommended item
+                const searchOutput = searchParts.find(
                   (part) => part.type === "tool-searchProducts" &&
                            "state" in part &&
                            part.state === "output-available"
                 );
-                const recommendedProduct =
-                  productOutput &&
-                  "output" in productOutput &&
+                const recommendedItem =
+                  searchOutput &&
+                  "output" in searchOutput &&
                   recommendedIndex >= 0 &&
-                  (productOutput.output as ProductListProps).products[recommendedIndex];
+                  (searchOutput.output as ItemListProps).items[recommendedIndex];
 
                 return (
                   <>
-                    {/* Render text before product list */}
+                    {/* Render text before search results */}
                     {beforeProducts && (
                       <Streamdown key="text-before">{beforeProducts}</Streamdown>
                     )}
 
-                    {/* Render product list */}
-                    {productParts.map((part, index) => {
+                    {/* Render search results */}
+                    {searchParts.map((part, index) => {
                       if (part.type === "tool-searchProducts") {
                         switch (part.state) {
                           case "input-available":
-                            return <div key={index}>Searching for products...</div>;
+                            return <div key={index}>Searching...</div>;
                           case "output-available":
-                            // Only show product list if there's a text part or if it's a user message
+                            // Only show results if there's a text part or if it's a user message
                             if (message.role === "user" || hasTextPart) {
                               return (
                                 <div key={index}>
-                                  <ProductList {...(part.output as ProductListProps)} />
+                                  <ItemList {...(part.output as ItemListProps)} />
                                 </div>
                               );
                             }
@@ -276,19 +325,19 @@ export default function Page() {
                       return null;
                     })}
 
-                    {/* Render text between product list and recommended product */}
+                    {/* Render text between search results and recommended item */}
                     {middleText && (
                       <Streamdown key="text-middle">{middleText}</Streamdown>
                     )}
 
-                    {/* Render recommended product card */}
-                    {recommendedProduct && (
-                      <div key="recommended-product" className="my-4 flex justify-center">
-                        <ProductCard product={recommendedProduct} />
+                    {/* Render recommended item card */}
+                    {recommendedItem && (
+                      <div key="recommended-item" className="my-4 flex justify-center">
+                        <ProductCardNew product={recommendedItem as any} />
                       </div>
                     )}
 
-                    {/* Render text after recommended product */}
+                    {/* Render text after recommended item */}
                     {afterRecommended && (
                       <Streamdown key="text-after">{afterRecommended}</Streamdown>
                     )}
