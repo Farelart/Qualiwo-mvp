@@ -4,7 +4,7 @@ import { Accommodation } from "@/search/types";
 import Image from "next/image";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
-import { useCartStore } from "@/store/cart-store-simple";
+import { useCartStoreNew } from "@/store/cart-store-new";
 import { useToast } from "@/components/ui/toast";
 import { MapPin, Users, Bed, Bath } from "lucide-react";
 import { getSafeImageUrl, getPlaceholderImage } from "@/lib/image-utils";
@@ -16,7 +16,7 @@ interface AccommodationCardProps {
 export const AccommodationCard = ({ accommodation }: AccommodationCardProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { addItem } = useCartStore();
+  const { addItem } = useCartStoreNew();
   const { addToast } = useToast();
 
   const handleAddToCart = () => {

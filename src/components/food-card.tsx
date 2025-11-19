@@ -4,7 +4,7 @@ import { Food } from "@/search/types";
 import Image from "next/image";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
-import { useCartStore } from "@/store/cart-store-simple";
+import { useCartStoreNew } from "@/store/cart-store-new";
 import { useToast } from "@/components/ui/toast";
 import { getSafeImageUrl, getPlaceholderImage } from "@/lib/image-utils";
 
@@ -14,7 +14,7 @@ interface FoodCardProps {
 
 export const FoodCard = ({ food }: FoodCardProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { addItem } = useCartStore();
+  const { addItem } = useCartStoreNew();
   const { addToast } = useToast();
 
   const handleAddToCart = () => {

@@ -8,7 +8,7 @@ import type { ItemListProps } from "@/components/item-list";
 import { ProductCardNew } from "@/components/product-card-new";
 import { CartSummary } from "@/components/cart-summary";
 import { Streamdown } from "streamdown";
-import { useCartStore } from "@/store/cart-store-simple";
+import { useCartStoreNew } from "@/store/cart-store-new";
 import { useToast } from "@/components/ui/toast";
 import type { Product } from "@/search/types";
 
@@ -19,7 +19,7 @@ export default function Page() {
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
   const [welcomeVisible, setWelcomeVisible] = useState(true);
-  const { clearCart } = useCartStore();
+  const { clearCart } = useCartStoreNew();
   const { addToast } = useToast();
   const lastProcessedPaymentRef = useRef<string | null>(null);
 

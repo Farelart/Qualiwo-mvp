@@ -1,6 +1,6 @@
 "use client";
 
-import { useCartStore } from "@/store/cart-store-simple";
+import { useCartStoreNew } from "@/store/cart-store-new";
 import Image from "next/image";
 import { Plus, Minus, Trash2, ShoppingCart } from "lucide-react";
 import { useState } from "react";
@@ -8,7 +8,7 @@ import { useChat } from "@ai-sdk/react";
 
 export const CartSummary = () => {
   const { items, totalPrice, incrementItem, decrementItem, removeItem, clearCart } =
-    useCartStore();
+    useCartStoreNew();
   const { sendMessage } = useChat();
 
   const [showPaymentPrompt, setShowPaymentPrompt] = useState(false);
@@ -57,20 +57,18 @@ export const CartSummary = () => {
       {/* Cart Items */}
       <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
         {items.map((item) => {
-          const priceEuro = parseFloat(item.product.priceEuro);
-          const priceFcfa = Math.round(priceEuro * 655);
-          const itemTotalFcfa = priceFcfa * item.quantity;
+          const itemTotalPrice = item.price * item.quantity;
 
           return (
             <div
               key={item.id}
               className="bg-[#30302e] rounded-xl p-3 sm:p-4 flex gap-3 sm:gap-4 border border-gray-700"
             >
-              {/* Product Image */}
+              {/* Item Image */}
               <div className="w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-[#3a3a38] rounded-lg overflow-hidden">
                 <Image
-                  src={item.product.image}
-                  alt={item.product.name}
+                  src={item.image}
+                  alt={item.name}
                   width={80}
                   height={80}
                   className="w-full h-full object-cover"
@@ -81,14 +79,14 @@ export const CartSummary = () => {
                 />
               </div>
 
-              {/* Product Details */}
+              {/* Item Details */}
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-start mb-1 sm:mb-2">
                   <div className="flex-1 min-w-0 pr-2">
                     <h4 className="text-white font-medium text-xs sm:text-sm line-clamp-2 mb-0.5 sm:mb-1">
-                      {item.product.name}
+                      {item.name}
                     </h4>
-                    <p className="text-xs text-amber-600">{item.product.brand}</p>
+                    <p className="text-xs text-amber-600">{item.source}</p>
                   </div>
                   <button
                     onClick={() => removeItem(item.id)}
@@ -104,10 +102,10 @@ export const CartSummary = () => {
                   {/* Price */}
                   <div className="flex flex-col">
                     <div className="text-[#d97757] font-bold text-sm sm:text-base">
-                      {itemTotalFcfa.toLocaleString()} fcfa
+                      {itemTotalPrice.toLocaleString()} {item.currency}
                     </div>
                     <div className="text-xs text-gray-400">
-                      {priceFcfa.toLocaleString()} fcfa each
+                      {item.price.toLocaleString()} {item.currency} each
                     </div>
                   </div>
 
@@ -154,10 +152,7 @@ export const CartSummary = () => {
           <span className="text-base sm:text-lg font-semibold text-white">Total:</span>
           <div className="text-right">
             <div className="text-xl sm:text-2xl font-bold text-[#d97757]">
-              {Math.round(totalPrice * 655).toLocaleString()} fcfa
-            </div>
-            <div className="text-xs text-gray-400">
-              ≈ €{totalPrice.toFixed(2)}
+              {totalPrice.toLocaleString()} {items[0]?.currency || 'FCFA'}
             </div>
           </div>
         </div>
