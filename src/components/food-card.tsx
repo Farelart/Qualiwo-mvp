@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useCartStoreNew } from "@/store/cart-store-new";
 import { useToast } from "@/components/ui/toast";
 import { getSafeImageUrl, getPlaceholderImage } from "@/lib/image-utils";
+import { Plus, Minus } from "lucide-react";
 
 interface FoodCardProps {
   food: Food;
@@ -14,8 +15,9 @@ interface FoodCardProps {
 
 export const FoodCard = ({ food }: FoodCardProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { addItem } = useCartStoreNew();
+  const { addItem, incrementItem, decrementItem, getItemQuantity } = useCartStoreNew();
   const { addToast } = useToast();
+  const cartQuantity = getItemQuantity(food.id);
 
   const handleAddToCart = () => {
     addItem({
@@ -35,6 +37,32 @@ export const FoodCard = ({ food }: FoodCardProps) => {
     setIsSheetOpen(false);
   };
 
+  const handleIncrement = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (cartQuantity === 0) {
+      addItem({
+        id: food.id,
+        type: "food",
+        name: food.name,
+        price: food.price.amount,
+        currency: food.price.currency,
+        image: food.image,
+        source: food.meta.source,
+      });
+      addToast({
+        title: "Added to cart! 🛒",
+        description: food.name,
+      });
+    } else {
+      incrementItem(food.id);
+    }
+  };
+
+  const handleDecrement = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    decrementItem(food.id);
+  };
+
   const [imageError, setImageError] = useState(false);
   const safeImageUrl = getSafeImageUrl(food.image); // Now uses proxy for Google Drive
 
@@ -45,10 +73,10 @@ export const FoodCard = ({ food }: FoodCardProps) => {
     <>
       <div
         onClick={() => setIsSheetOpen(true)}
-        className="bg-[#30302e] rounded-xl shadow-md overflow-hidden w-56 flex-shrink-0 border border-gray-700 hover:shadow-lg hover:border-[#d97757]/50 transition-all cursor-pointer"
+        className="bg-[#30302e] rounded-xl shadow-md overflow-hidden w-56 h-[400px] flex-shrink-0 border border-gray-700 hover:shadow-lg hover:border-[#d97757]/50 transition-all cursor-pointer flex flex-col"
       >
         {/* Food Image */}
-        <div className="aspect-square bg-[#30302e] flex items-center justify-center relative group">
+        <div className="aspect-square bg-[#30302e] flex items-center justify-center relative group flex-shrink-0">
           <Image
             src={displayImage}
             alt={food.name}
@@ -65,7 +93,7 @@ export const FoodCard = ({ food }: FoodCardProps) => {
         </div>
 
         {/* Food Info */}
-        <div className="p-3">
+        <div className="p-3 flex flex-col flex-grow">
           {/* Source */}
           <span className="text-xs font-medium text-amber-600 uppercase tracking-wide">
             {food.meta.source}
@@ -83,12 +111,39 @@ export const FoodCard = ({ food }: FoodCardProps) => {
             </span>
           </div>
 
-          {/* Category */}
-          {food.categories.length > 0 && (
-            <div className="text-xs text-gray-400">
-              {food.categories[0]}
-            </div>
-          )}
+          {/* Add to Cart Controls */}
+          <div className="flex items-center justify-between mt-auto">
+            {cartQuantity === 0 ? (
+              <button
+                onClick={handleIncrement}
+                className="w-8 h-8 bg-[#d97757] hover:bg-[#c86647] text-white rounded-full flex items-center justify-center transition-colors shadow-md"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleDecrement}
+                  className="w-8 h-8 bg-gray-600 hover:bg-gray-700 text-white rounded-full flex items-center justify-center transition-colors shadow-md"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-white font-semibold text-base min-w-[1.5rem] text-center">{cartQuantity}</span>
+                <button
+                  onClick={handleIncrement}
+                  className="w-8 h-8 bg-[#d97757] hover:bg-[#c86647] text-white rounded-full flex items-center justify-center transition-colors shadow-md"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+            {cartQuantity > 0 && (
+              <div className="bg-green-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+                {cartQuantity} in cart
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

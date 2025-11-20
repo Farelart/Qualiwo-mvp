@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useCartStoreNew } from "@/store/cart-store-new";
 import { useToast } from "@/components/ui/toast";
-import { MapPin, Users, Bed, Bath } from "lucide-react";
+import { MapPin, Users, Bed, Bath, Plus, Minus } from "lucide-react";
 import { getSafeImageUrl, getPlaceholderImage } from "@/lib/image-utils";
 
 interface AccommodationCardProps {
@@ -16,8 +16,9 @@ interface AccommodationCardProps {
 export const AccommodationCard = ({ accommodation }: AccommodationCardProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { addItem } = useCartStoreNew();
+  const { addItem, incrementItem, decrementItem, getItemQuantity } = useCartStoreNew();
   const { addToast } = useToast();
+  const cartQuantity = getItemQuantity(accommodation.id);
 
   const handleAddToCart = () => {
     addItem({
@@ -35,6 +36,32 @@ export const AccommodationCard = ({ accommodation }: AccommodationCardProps) => 
       image: accommodation.images?.[0] || accommodation.image || undefined,
     });
     setIsSheetOpen(false);
+  };
+
+  const handleIncrement = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (cartQuantity === 0) {
+      addItem({
+        id: accommodation.id,
+        type: "accommodation",
+        name: accommodation.name,
+        price: accommodation.price.perNight,
+        currency: accommodation.price.currency,
+        image: accommodation.images?.[0] || accommodation.image || "",
+        source: accommodation.meta.source,
+      });
+      addToast({
+        title: "Added to cart! 🛒",
+        description: accommodation.name,
+      });
+    } else {
+      incrementItem(accommodation.id);
+    }
+  };
+
+  const handleDecrement = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    decrementItem(accommodation.id);
   };
 
   // Try images array first, then fall back to single image field
@@ -106,11 +133,45 @@ export const AccommodationCard = ({ accommodation }: AccommodationCardProps) => 
           )}
 
           {/* Price */}
-          <div className="mb-2">
+          <div className="mb-3">
             <span className="text-lg font-bold text-[#d97757]">
               ${(accommodation.price.perNight / 100).toFixed(2)}
             </span>
             <span className="text-xs text-gray-400"> / night</span>
+          </div>
+
+          {/* Add to Cart Controls */}
+          <div className="flex items-center justify-between">
+            {cartQuantity === 0 ? (
+              <button
+                onClick={handleIncrement}
+                className="w-8 h-8 bg-[#d97757] hover:bg-[#c86647] text-white rounded-full flex items-center justify-center transition-colors shadow-md"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleDecrement}
+                  className="w-8 h-8 bg-gray-600 hover:bg-gray-700 text-white rounded-full flex items-center justify-center transition-colors shadow-md"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-white font-semibold text-base min-w-[1.5rem] text-center">{cartQuantity}</span>
+                <button
+                  onClick={handleIncrement}
+                  className="w-8 h-8 bg-[#d97757] hover:bg-[#c86647] text-white rounded-full flex items-center justify-center transition-colors shadow-md"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
+            {cartQuantity > 0 && (
+              <div className="bg-green-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+                {cartQuantity} in cart
+              </div>
+            )}
           </div>
         </div>
       </div>
