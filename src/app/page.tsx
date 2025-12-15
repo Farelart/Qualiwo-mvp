@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { useState, useEffect, useRef } from "react";
-import { ArrowUp, Smartphone, Laptop, Gamepad2, Shirt, Home, Sparkles, Dumbbell, BookOpen, Backpack, UtensilsCrossed, Hotel, ShoppingBag } from "lucide-react";
+import { ArrowUp, Shirt, Home, UtensilsCrossed, ShoppingBag } from "lucide-react";
 import { ItemList } from "@/components/item-list";
 import type { ItemListProps } from "@/components/item-list";
 import { ProductCardNew } from "@/components/product-card-new";
@@ -118,93 +118,31 @@ export default function Page() {
               </p>
 
               {/* Categories Grid */}
-              <div className="space-y-6">
-                {/* Products Section */}
-                <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6">
-                  <h2 className="text-xl font-semibold text-[#d97757] mb-4 flex items-center justify-center gap-2">
-                    <ShoppingBag className="w-5 h-5" />
-                    Products
-                  </h2>
-                  <div className="grid grid-cols-2 gap-3 text-left">
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Smartphone className="w-5 h-5 text-[#d97757]" />
-                      <span>Phones</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Laptop className="w-5 h-5 text-[#d97757]" />
-                      <span>Laptops</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Gamepad2 className="w-5 h-5 text-[#d97757]" />
-                      <span>Gaming</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Shirt className="w-5 h-5 text-[#d97757]" />
-                      <span>Fashion & Apparel</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Home className="w-5 h-5 text-[#d97757]" />
-                      <span>Home & Office</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Sparkles className="w-5 h-5 text-[#d97757]" />
-                      <span>Health & Beauty</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Dumbbell className="w-5 h-5 text-[#d97757]" />
-                      <span>Sports & Outdoor</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <BookOpen className="w-5 h-5 text-[#d97757]" />
-                      <span>Toys & Books</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <Backpack className="w-5 h-5 text-[#d97757]" />
-                      <span>Bags & Travel</span>
+              <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6">
+                <h2 className="text-xl font-semibold text-[#d97757] mb-4 flex items-center justify-center gap-2">
+                  <ShoppingBag className="w-5 h-5" />
+                  Ce que vous pouvez acheter
+                </h2>
+                <div className="grid grid-cols-1 gap-5 text-left">
+                  <div className="flex items-start gap-3 text-gray-200">
+                    <Shirt className="w-6 h-6 text-[#d97757] flex-shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-lg font-medium">Vêtements</span>
+                      <p className="text-sm text-gray-400">Hervens • Massimo Dutti</p>
                     </div>
                   </div>
-                </div>
-
-                {/* Foods Section */}
-                <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6">
-                  <h2 className="text-xl font-semibold text-[#d97757] mb-4 flex items-center justify-center gap-2">
-                    <UtensilsCrossed className="w-5 h-5" />
-                    Foods
-                  </h2>
-                  <div className="grid grid-cols-2 gap-3 text-left">
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">African Cuisine</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">Fast Food</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">Local Dishes</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">Beverages</span>
+                  <div className="flex items-start gap-3 text-gray-200">
+                    <Home className="w-6 h-6 text-[#d97757] flex-shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-lg font-medium">Produits de décoration</span>
+                      <p className="text-sm text-gray-400">Orca déco</p>
                     </div>
                   </div>
-                </div>
-
-                {/* Accommodations Section */}
-                <div className="bg-[#262624] rounded-lg border border-gray-500/70 p-6">
-                  <h2 className="text-xl font-semibold text-[#d97757] mb-4 flex items-center justify-center gap-2">
-                    <Hotel className="w-5 h-5" />
-                    Accommodations
-                  </h2>
-                  <div className="grid grid-cols-2 gap-3 text-left">
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">Hotels</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">Apartments</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">Private Rooms</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-200">
-                      <span className="text-sm">Beach Stays</span>
+                  <div className="flex items-start gap-3 text-gray-200">
+                    <UtensilsCrossed className="w-6 h-6 text-[#d97757] flex-shrink-0 mt-0.5" />
+                    <div>
+                      <span className="text-lg font-medium">Ustensiles de cuisine</span>
+                      <p className="text-sm text-gray-400">Orca déco</p>
                     </div>
                   </div>
                 </div>
