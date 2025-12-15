@@ -1,4 +1,4 @@
-// Base item type
+// Base item type (legacy - kept for Food and Accommodation)
 export type BaseItem = {
   id: string;
   type: "product" | "food" | "accommodation";
@@ -16,22 +16,43 @@ export type BaseItem = {
   };
 };
 
-// Product type
-export type Product = BaseItem & {
+// Product type - Updated for Qualiwo Search API
+export type Product = {
+  id: string;
   type: "product";
+  name: string;
+  description: string;
+  short_description: string | null;
+  brand: string | null;
   price: {
     amount: number;
     currency: string;
-    display: string;
-    amount_eur: number;
-    currency_original: string;
   };
-  image: string;
+  categories: string[];
+  tags: string[];
+  keywords: string[];
   attributes: {
-    brand: string;
-    color: string;
+    color: string[];
+    material: string[];
+    size: string[];
+    dimensions: string | null;
+    [key: string]: unknown; // Allow additional dynamic attributes
   };
-  similarity_score?: number;
+  stock: {
+    status: "in_stock" | "out_of_stock" | "unknown";
+    quantity: number | null;
+  };
+  images: {
+    main: string;
+    gallery: string[];
+  };
+  sku: string | null;
+  meta: {
+    source: string;
+    url: string | null;
+    scraped_at: string | null;
+    original_description: string | null;
+  };
 };
 
 // Food type

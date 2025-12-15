@@ -75,10 +75,10 @@ export const AccommodationCard = ({ accommodation }: AccommodationCardProps) => 
     <>
       <div
         onClick={() => setIsSheetOpen(true)}
-        className="bg-[#30302e] rounded-xl shadow-md overflow-hidden w-72 flex-shrink-0 border border-gray-700 hover:shadow-lg hover:border-[#d97757]/50 transition-all cursor-pointer"
+        className="bg-[#30302e] rounded-xl shadow-md overflow-hidden w-72 h-[480px] flex-shrink-0 border border-gray-700 hover:shadow-lg hover:border-[#d97757]/50 transition-all cursor-pointer flex flex-col"
       >
         {/* Accommodation Image */}
-        <div className="aspect-[4/3] bg-[#30302e] flex items-center justify-center relative group">
+        <div className="aspect-[4/3] bg-[#30302e] flex items-center justify-center relative group flex-shrink-0">
           <Image
             src={displayImage}
             alt={accommodation.name}
@@ -100,7 +100,7 @@ export const AccommodationCard = ({ accommodation }: AccommodationCardProps) => 
         </div>
 
         {/* Accommodation Info */}
-        <div className="p-3">
+        <div className="p-3 flex flex-col flex-grow">
           {/* Location */}
           {accommodation.location && (
             <div className="flex items-center gap-1 text-xs text-amber-600 mb-1">
@@ -141,7 +141,7 @@ export const AccommodationCard = ({ accommodation }: AccommodationCardProps) => 
           </div>
 
           {/* Add to Cart Controls */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-auto">
             {cartQuantity === 0 ? (
               <button
                 onClick={handleIncrement}

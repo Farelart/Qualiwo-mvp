@@ -53,7 +53,8 @@ export function convertGoogleDriveUrl(url: string): string {
  * For Google Drive images, uses a proxy to bypass CORS/auth issues
  */
 export function getSafeImageUrl(url: string | undefined | null, useProxy: boolean = true): string {
-  if (!url || url.trim() === '') {
+  // Ensure url is a string before processing
+  if (!url || typeof url !== 'string' || url.trim() === '') {
     return getPlaceholderImage();
   }
 
