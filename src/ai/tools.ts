@@ -1,14 +1,14 @@
 import { tool as createTool } from "ai";
 import { z } from "zod";
 import { searchProducts } from "@/search";
-import type { Product } from "@/search/types";
+import type { Product, SearchResult } from "@/search/types";
 
 // Re-export Product type for backward compatibility
 export type { Product };
 
 export const productSearchTool = createTool({
   description:
-    "Search for products based on user query. Use this when users ask about products, shopping, or want to find specific items.",
+    "Search for products based on user query. Use this when users ask about products, shopping, or want to find specific items. The tool returns a summary of products found so you can validate if they match what the user asked for.",
   inputSchema: z.object({
     query: z
       .string()
@@ -20,7 +20,26 @@ export const productSearchTool = createTool({
       .optional()
       .describe("Maximum number of products to return (default: 5)"),
   }),
-  execute: searchProducts,
+  execute: async ({ query, limit = 10 }): Promise<SearchResult & { productsSummary: string }> => {
+    const result = await searchProducts({ query, limit });
+
+    // Create a summary of products for the AI to analyze
+    let productsSummary = "";
+    if (result.items.length === 0) {
+      productsSummary = `No products found for "${query}".`;
+    } else {
+      const products = result.items as Product[];
+      const summaryLines = products.map((p, i) =>
+        `${i + 1}. "${p.name}" - ${p.brand || 'Unknown brand'} - ${p.price.amount.toLocaleString()} ${p.price.currency} - Categories: ${p.categories?.join(', ') || 'N/A'}`
+      );
+      productsSummary = `Found ${result.totalFound} products for "${query}":\n${summaryLines.join('\n')}`;
+    }
+
+    return {
+      ...result,
+      productsSummary,
+    };
+  },
 });
 
 export const showCartTool = createTool({
