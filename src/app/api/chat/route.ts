@@ -1,16 +1,17 @@
-import { createOpenAI } from "@ai-sdk/openai";
-import { streamText, convertToModelMessages, UIMessage, stepCountIs } from "ai";
+/* import { createOpenAI } from "@ai-sdk/openai";
+ */import { streamText, convertToModelMessages, UIMessage, stepCountIs } from "ai";
 import { tools } from "@/ai/tools";
 
-const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
 
+/* const openai = createOpenAI({
+  apiKey: process.env.VERCEL_AI_GATEWAY!,
+});
+ */
 export async function POST(request: Request) {
   const { messages }: { messages: UIMessage[] } = await request.json();
 
   const result = streamText({
-    model: openai("gpt-4o-mini"),
+    model: "openai/gpt-4o-mini",
     system: `Your name is Qualiwo, you are a friendly AI shopping assistant for an ecommerce store.
 
 IMPORTANT RULES:
